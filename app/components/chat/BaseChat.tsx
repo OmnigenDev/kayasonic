@@ -43,8 +43,9 @@ import { ExpoQrModal } from '~/components/workbench/ExpoQrModal';
 import { expoUrlAtom } from '~/lib/stores/qrCodeStore';
 import { useStore } from '@nanostores/react';
 import { StickToBottom, useStickToBottomContext } from '~/lib/hooks';
+import PromptScorer from './PromptScorer'; // Import the new component
 
-const TEXTAREA_MIN_HEIGHT = 76;
+const TEXTAREA_MIN_HEIGHT = 152; // Increased default height
 
 interface BaseChatProps {
   textareaRef?: React.RefObject<HTMLTextAreaElement> | undefined;
@@ -380,10 +381,19 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
                   }}
                 </ClientOnly>
               </StickToBottom.Content>
+
+              {/* Moved PromptScorer above chat input for !chatStarted state */}
+              {!chatStarted && <PromptScorer inputText={input} />}
+
               <div
-                className={classNames('my-auto flex flex-col gap-2 w-full max-w-chat mx-auto z-prompt mb-6', {
-                  'sticky bottom-2': chatStarted,
-                })}
+                className={classNames(
+                  'my-auto flex flex-col gap-2 w-full max-w-chat mx-auto z-prompt',
+                  {
+                    'sticky bottom-2': chatStarted,
+                    'mt-5': !chatStarted, // Add 20px margin above chat input when scorer is present
+                    // mb-6 is removed, spacing handled by element below
+                  },
+                )}
               >
                 <div className="flex flex-col gap-2">
                   {deployAlert && (
@@ -576,7 +586,7 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
                       onPaste={handlePaste}
                       style={{
                         minHeight: TEXTAREA_MIN_HEIGHT,
-                        maxHeight: TEXTAREA_MAX_HEIGHT,
+                        maxHeight: TEXTAREA_MIN_HEIGHT, // Set max height equal to min height
                       }}
                       placeholder="How can kaya assist you on your dev work today?"
                       translate="no"
@@ -655,28 +665,27 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
                     </div>
                   </div>
                 </div>
+                {/* PromptScorer was here, now moved above this div for !chatStarted state */}
               </div>
             </StickToBottom>
-            <div className="flex flex-col justify-center">
-              {!chatStarted && (
-                <div className="flex justify-center gap-2">
+            {/* Container for initial state (Import buttons, Example prompts) - only shown when chat hasn't started */}
+            {!chatStarted && (
+              <div className="flex flex-col justify-center flex-grow mt-0.5"> {/* Adjusted top margin to move section up */}
+                <div className="flex justify-center gap-2 mb-4"> {/* Import buttons */}
                   {ImportButtons(importChat)}
                   <GitCloneButton importChat={importChat} />
                 </div>
-              )}
-              <div className="flex flex-col gap-5">
-                {!chatStarted &&
-                  ExamplePrompts((event, messageInput) => {
-                    if (isStreaming) {
-                      handleStop?.();
-                      return;
-                    }
-
-                    handleSendMessage?.(event, messageInput);
-                  })}
-                {!chatStarted && <StarterTemplates />}
+                {/* Example prompts */}
+                {ExamplePrompts((event, messageInput) => {
+                  if (isStreaming) {
+                    handleStop?.();
+                    return;
+                  }
+                  handleSendMessage?.(event, messageInput);
+                })}
+                {/* StarterTemplates component is removed */}
               </div>
-            </div>
+            )}
           </div>
           <ClientOnly>
             {() => (
