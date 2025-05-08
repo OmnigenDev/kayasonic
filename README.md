@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/7520e7d6-17ef-47b9-b470-ae266089fda6)
+![kayasonic_ui_update](https://github.com/user-attachments/assets/9212e2da-41e2-468b-80f8-b236a177ce37)
 
 # kaya⚡onic
 
