@@ -1,5 +1,7 @@
 ![kayasonic_ui_update](https://github.com/user-attachments/assets/9212e2da-41e2-468b-80f8-b236a177ce37)
 
+![image](https://github.com/user-attachments/assets/7520e7d6-17ef-47b9-b470-ae266089fda6)
+
 # kaya⚡onic
 
 **App builder for Web & Mobile devices.**
@@ -13,6 +15,7 @@ kaya⚡onic is an AI-powered development environment that allows you to build, t
 *   **Web & Mobile Capabilities:** Build applications using a wide range of modern frameworks and technologies.
 *   **Integrated Environment:** Includes a file explorer, code editor, terminal, and preview window within a single interface.
 *   **Chat Interface:** Interact with the AI assistant through a conversational interface.
+*   **Prompt Scorer:** Get real-time feedback on your prompt quality based on length, keywords, structure, and clarity. Helps guide better prompt engineering.
 *   **Image Support:** Attach images to prompts for visual context.
 *   **Code Management:** View code diffs, revert changes, and download your project as a ZIP archive.
 *   **Deployment:** Deploy directly to Netlify or Vercel (configuration required).
